@@ -15,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return view('admin.projects.index', ['projects' => Project::orderByDesc('id')->paginate(10)]);
+        return view('admin.projects.index', ['projects' => Project::orderBy('id')->paginate(10)]);
     }
 
     /**
@@ -51,7 +51,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -59,7 +59,12 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $validated = $request->validated();
+        //dd($validated);
+        $slug = Str::slug($validated['name'], '-');
+        $validated['slug'] = $slug;
+        $project->update($validated);
+        return redirect()->route('admin.projects.show', $project);
     }
 
     /**
@@ -67,6 +72,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route('admin.projects.index');
     }
 }
