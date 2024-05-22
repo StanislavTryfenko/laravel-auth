@@ -35,7 +35,7 @@ class ProjectController extends Controller
         $slug = Str::slug($request->name);
         $validated['slug'] = $slug;
         Project::create($validated);
-        return redirect()->route('admin.projects.index');
+        return redirect()->route('admin.projects.index')->with('message', 'Project created successfully');
     }
 
     /**
@@ -43,7 +43,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        return view('admin.projects.show', compact('project'))->with('message', 'Project created successfully');
     }
 
     /**
@@ -64,7 +64,7 @@ class ProjectController extends Controller
         $slug = Str::slug($validated['name'], '-');
         $validated['slug'] = $slug;
         $project->update($validated);
-        return redirect()->route('admin.projects.show', $project);
+        return redirect()->route('admin.projects.show', $project)->with('message', 'Project updated successfully');
     }
 
     /**
@@ -73,6 +73,6 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
-        return redirect()->route('admin.projects.index');
+        return redirect()->route('admin.projects.index')->with('message', 'Project deleted successfully');
     }
 }
