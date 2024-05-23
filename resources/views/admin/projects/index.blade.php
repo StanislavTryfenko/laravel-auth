@@ -8,6 +8,9 @@
         </div>
     </div>
     <div class="container">
+
+        @include('partials.session-messages')
+
         <div class="table-responsive">
             <table class="table table-light">
                 <thead>

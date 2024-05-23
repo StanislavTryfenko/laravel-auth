@@ -4,10 +4,10 @@
 @section('content')
     <div class="container py-5">
         <h1>Create a new project</h1>
-        @include('partials.validation-error')
 
+        @include('partials.validation-messages')
 
-        <form action="" method="post">
+        <form action="{{ route('admin.projects.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -25,8 +25,7 @@
                 <div class="mb-3 w-100">
                     <label for="image" class="form-label">Image</label>
                     <input type="text" class="form-control @error('image') is-invalid @enderror" name="image"
-                        id="image" aria-describedby="imageHelper" placeholder="https://"
-                        value="{{ old('image',) }}" />
+                        id="image" aria-describedby="imageHelper" placeholder="https://" value="{{ old('image') }}" />
                     <small id="imageHelper" class="form-text text-muted">Type an image URL for the project </small>
                     @error('image')
                         <div class="text-danger">{{ $message }}</div>

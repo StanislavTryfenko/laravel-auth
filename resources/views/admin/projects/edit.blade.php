@@ -4,7 +4,9 @@
 @section('content')
     <div class="container py-5">
         <h1>Add a new project</h1>
-        @include('partials.validation-error')
+        
+        @include('partials.validation-messages')
+        @include('partials.session-messages')
 
 
         <form action="{{ route('admin.projects.update', $project) }}" method="post">
