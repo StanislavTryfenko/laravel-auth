@@ -48,7 +48,12 @@
     <section class="py-5">
         <div class="container">
             <a class="d-block mb-3" href="{{ route('admin.projects.index') }}">Go back</a>
-            <img src="{{ $project->image }}" alt="">
+            @if (Str::startsWith($project->image, 'https://'))
+                <img width="140" loading="lazy" src="{{ $project->image }}" alt="{{ $project->name }}">
+            @else
+                <img width="140" loading="lazy" src="{{ asset('storage/' . $project->image) }}"
+                    alt="{{ $project->name }}">
+            @endif
             <h2>{{ $project->name }}</h2>
             <p>{{ $project->description }}</p>
     </section>

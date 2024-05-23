@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -32,7 +33,13 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $validated = $request->validated();
+
         $validated['slug'] = Str::slug($request->name);
+
+        if ($request->has('image')) {
+            $validated['image'] = Storage::put('uploads', $validated['image']);
+        }
+
         Project::create($validated);
         return redirect()->route('admin.projects.index')->with('message', 'Project created successfully');
     }
@@ -59,8 +66,18 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $validated = $request->validated();
+
         $validated['slug'] = Str::slug($validated['name'], '-');
+
+        if ($request->has('image')) {
+            if ($project->image) {
+                Storage::delete($project->image);
+            }
+            $validated['image'] = Storage::put('uploads', $validated['image']);
+        }
+
         $project->update($validated);
+
         return redirect()->route('admin.projects.show', $project)->with('message', 'Project updated successfully');
     }
 
@@ -69,6 +86,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if ($project->image) {
+            Storage::delete($project->image);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', 'Project deleted successfully');
     }

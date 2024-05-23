@@ -24,9 +24,9 @@
                 <img height="100" src="{{ old('image') }}" alt="">
                 <div class="mb-3 w-100">
                     <label for="image" class="form-label">Image</label>
-                    <input type="text" class="form-control @error('image') is-invalid @enderror" name="image"
-                        id="image" aria-describedby="imageHelper" placeholder="https://" value="{{ old('image') }}" />
-                    <small id="imageHelper" class="form-text text-muted">Type an image URL for the project </small>
+                    <input type="file" class="form-control @error('image') is-invalid @enderror" name="image"
+                        id="image" aria-describedby="imageHelper" />
+                    <small id="imageHelper" class="form-text text-muted">Chose an image</small>
                     @error('image')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
